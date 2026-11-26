@@ -1,6 +1,6 @@
 {
   "name": "caravel-pay",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Caravel Pay Node.js SDK: hosted card and crypto checkouts that pay out in USDC on Polygon, signed requests and webhook verification.",
   "license": "MIT",
   "type": "module",

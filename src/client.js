@@ -3,7 +3,7 @@ import { CHECKOUT_ID, FEE_MODES, feeMode, validateCheckout } from './checkout.js
 import { FX_RATE, MAX_FX_BUFFER_BPS } from './currency.js';
 import { signatureHeaders } from './signature.js';
 
-export const VERSION = '1.2.1';
+export const VERSION = '1.2.2';
 export const DEFAULT_API_BASE = 'https://api.caravelpay.app';
 const MAX_RESPONSE_BYTES = 1048576;
 const MAX_RETRY_WAIT_MS = 10000;

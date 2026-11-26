@@ -8,6 +8,8 @@ const AMOUNT = /^[0-9]{1,13}\.[0-9]{2}$/;
 const OWN_AMOUNT = /^[0-9]{1,13}(?:\.[0-9]{2})?$/;
 const TIME = /^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\.[0-9]{1,3})?Z$/;
 const TX_HASH = /^0x[0-9a-fA-F]{64}$/;
+const ASSET = /^[A-Za-z][A-Za-z0-9.]{0,15}$/;
+const ETHEREUM_ASSETS = new Set(['PYUSD', 'USDT', 'ETH']);
 /** Who pays the fees: seller (the default), split (the buyer covers the card provider's fee) or buyer (both fees). */
 export const FEE_MODES = Object.freeze(['seller', 'split', 'buyer']);
 
@@ -110,7 +112,24 @@ export function payouts(checkout) {
   return checkout?.payout && typeof checkout.payout === 'object' ? [checkout.payout] : [];
 }
 
-/** A Polygonscan link for a transaction hash, or ''. */
-export function explorerUrl(hash, prefix = 'https://polygonscan.com/tx/') {
-  return typeof hash === 'string' && TX_HASH.test(hash) ? prefix + hash.toLowerCase() : '';
+/**
+ * Block-explorer link for a payout transaction hash, or ''.
+ * Defaults to Etherscan for Ethereum payout assets (PYUSD, USDT, ETH) and Polygonscan otherwise.
+ * @param {string | null | undefined} hash
+ * @param {string | null} [prefix] Explorer URL prefix override (or payout asset ticker when asset is omitted).
+ * @param {string | null} [asset] Payout asset ticker (e.g. 'USDC', 'PYUSD', 'USDT', 'ETH').
+ */
+export function explorerUrl(hash, prefix = null, asset = null) {
+  if (typeof hash !== 'string' || !TX_HASH.test(hash)) return '';
+  let resolvedPrefix = typeof prefix === 'string' && prefix !== '' ? prefix : null;
+  let resolvedAsset = typeof asset === 'string' && asset !== '' ? asset : null;
+  if (resolvedPrefix !== null && resolvedAsset === null && ASSET.test(resolvedPrefix.trim())) {
+    resolvedAsset = resolvedPrefix;
+    resolvedPrefix = null;
+  }
+  if (resolvedPrefix === null) {
+    const normalized = resolvedAsset !== null ? resolvedAsset.trim().toUpperCase() : '';
+    resolvedPrefix = ETHEREUM_ASSETS.has(normalized) ? 'https://etherscan.io/tx/' : 'https://polygonscan.com/tx/';
+  }
+  return resolvedPrefix + hash.toLowerCase();
 }

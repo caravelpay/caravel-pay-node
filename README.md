@@ -213,7 +213,7 @@ PayGate's SDK builds a payment URL from a wallet-forwarding address and verifies
 
 ## Download
 
-- [Latest release](https://github.com/caravelpay/caravel-pay-node/releases/latest): `caravel-pay-1.2.1.tgz`, with `SHA256SUMS`.
+- [Latest release](https://github.com/caravelpay/caravel-pay-node/releases/latest): `caravel-pay-1.2.2.tgz`, with `SHA256SUMS`.
 - The same file is at <https://caravelpay.app/plugins/#node-sdk>, and its checksum is in <https://caravelpay.app/download/SHA256SUMS>.
 
 ## Docs and support

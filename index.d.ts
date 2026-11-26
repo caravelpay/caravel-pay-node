@@ -23,8 +23,8 @@ export declare const FEE_MODE_LABELS: Readonly<Record<FeeMode, string>>;
 export interface Payout {
   /** Amount of `asset` sent to your wallet. */
   amount: string;
-  asset: 'USDC' | 'USDC.e' | 'POL' | (string & {});
-  /** Polygon transaction of the transfer to your wallet. */
+  asset: 'USDC' | 'USDC.e' | 'POL' | 'PYUSD' | 'USDT' | 'ETH' | (string & {});
+  /** Transaction hash of the transfer to your wallet. */
   tx_hash: string;
 }
 
@@ -273,7 +273,7 @@ export declare function validateCheckout(value: unknown, expectedId?: string): C
 export declare function isPaid(checkout: Partial<Checkout> | null | undefined): boolean;
 export declare function txHash(checkout: Partial<Checkout> | null | undefined): string | null;
 export declare function payouts(checkout: Partial<Checkout> | null | undefined): Payout[];
-export declare function explorerUrl(hash: string | null | undefined, prefix?: string): string;
+export declare function explorerUrl(hash: string | null | undefined, prefix?: string | null, asset?: string | null): string;
 /** "seller" when the checkout has no fee_mode. */
 export declare function feeMode(checkout: Partial<CheckoutCreated> | null | undefined): FeeMode;
 export declare function buyerTotalEstimate(checkout: Partial<CheckoutCreated> | null | undefined): string | null;
